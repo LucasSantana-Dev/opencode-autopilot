@@ -1,6 +1,6 @@
 {
   "name": "opencode-autopilot",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Autonomous task orchestration for OpenCode — centralized backlog, auto-dispatch, session lifecycle, telemetry",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

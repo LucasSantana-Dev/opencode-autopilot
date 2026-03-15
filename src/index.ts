@@ -414,3 +414,8 @@ export {
   type MetricEvent,
   type Metrics,
 } from "./metrics.js"
+export {
+  validateTask,
+  formatValidationQuestions,
+  type ValidationIssue,
+} from "./validate.js"
