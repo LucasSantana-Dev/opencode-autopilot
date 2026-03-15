@@ -1,0 +1,45 @@
+{
+  "name": "opencode-autopilot",
+  "version": "0.1.0",
+  "description": "Autonomous task orchestration for OpenCode — centralized backlog, auto-dispatch, session lifecycle, telemetry",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "license": "MIT",
+  "keywords": [
+    "opencode",
+    "opencode-plugin",
+    "plugin",
+    "orchestration",
+    "task-management",
+    "session-management",
+    "autopilot",
+    "ai",
+    "coding-agent",
+    "automation"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LucasSantana-Dev/opencode-autopilot.git"
+  },
+  "author": "Lucas Santana",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run build"
+  },
+  "peerDependencies": {
+    "@opencode-ai/plugin": ">=1.2.0"
+  },
+  "devDependencies": {
+    "@opencode-ai/plugin": "^1.2.26",
+    "@opencode-ai/sdk": "^1.2.26",
+    "@types/node": "^25.5.0",
+    "typescript": "^5.8.0"
+  }
+}
