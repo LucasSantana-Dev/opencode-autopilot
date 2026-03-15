@@ -1,5 +1,12 @@
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from "fs"
 
+export interface TaskScope {
+  files?: string[]
+  directories?: string[]
+  acceptanceCriteria?: string[]
+  outOfScope?: string[]
+}
+
 export interface Task {
   id: string
   title: string
@@ -7,6 +14,7 @@ export interface Task {
   directory: string
   priority: "critical" | "high" | "medium" | "low"
   status: "backlog" | "ready" | "in_progress" | "done" | "blocked"
+  scope?: TaskScope
   sessionID?: string
   agent?: string
   createdAt: number

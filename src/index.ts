@@ -68,15 +68,50 @@ async function dispatchTask(
     priority: t.priority,
   })
 
+  const scopeLines: string[] = []
+  if (t.scope) {
+    if (t.scope.files?.length) {
+      scopeLines.push(
+        "### Scope — Files",
+        ...t.scope.files.map((f) => `- ${f}`),
+        "",
+      )
+    }
+    if (t.scope.directories?.length) {
+      scopeLines.push(
+        "### Scope — Directories",
+        ...t.scope.directories.map((d) => `- ${d}`),
+        "",
+      )
+    }
+    if (t.scope.acceptanceCriteria?.length) {
+      scopeLines.push(
+        "### Acceptance Criteria",
+        ...t.scope.acceptanceCriteria.map((c) => `- [ ] ${c}`),
+        "",
+      )
+    }
+    if (t.scope.outOfScope?.length) {
+      scopeLines.push(
+        "### Out of Scope (DO NOT touch)",
+        ...t.scope.outOfScope.map((o) => `- ${o}`),
+        "",
+      )
+    }
+  }
+
   const prompt = [
     `## Task: ${t.title}`,
     "",
     t.description,
     "",
+    ...scopeLines,
     "### Constraints",
     "- Stay focused on THIS task only — do not expand scope",
+    "- Only modify files listed in scope. If no scope is defined, limit changes to what the task description requires",
     "- Do not refactor surrounding code unless the task requires it",
     "- Do not add features, tests, or docs beyond what is specified",
+    "- Do not scan for tech debt, TODOs, or improvements outside this task",
     "- Commit with conventional commits after each functional step",
     "- Run lint + tests before considering done",
     "- When complete, summarize what you did in 2-3 sentences",
