@@ -196,10 +196,11 @@ async function checkCompletions(
         durationMs: now - task.dispatchedAt,
       })
 
-      // Notify
       if (config.notifications.onTimeLimitHit) {
         try {
-          // Use osascript directly since we don't have $ in this scope
+          const { execFileSync } = await import("child_process")
+          const msg = `Task timed out: ${task.title.replace(/"/g, "")}`
+          execFileSync("osascript", ["-e", `display notification "${msg}" with title "OpenCode Autopilot" sound name "Basso"`])
         } catch {}
       }
 
@@ -207,11 +208,15 @@ async function checkCompletions(
     }
 
     try {
-      const status = await client.session.status({
+      // Check if session exists and is idle by examining its update time
+      const session = await client.session.get({
         path: { id: task.sessionID },
       })
-
-      if ((status.data as any)?.type === "idle") {
+      const sessionData = session.data as any
+      const lastUpdated = sessionData?.time?.updated || 0
+      const idleFor = now - lastUpdated
+      // Consider idle if no activity for 30+ seconds
+      if (idleFor > 30_000) {
         let allDone = true
         try {
           const todos = await client.session.todo({
