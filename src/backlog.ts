@@ -65,9 +65,18 @@ export function genID(): string {
 
 const PRIORITY_ORDER = { critical: 0, high: 1, medium: 2, low: 3 }
 
-export function getNextTask(backlog: Backlog): Task | undefined {
+export function getNextTask(
+  backlog: Backlog,
+  projectFilter?: string,
+): Task | undefined {
   return backlog.tasks
     .filter((t) => t.status === "ready")
+    .filter((t) => {
+      if (!projectFilter) return true
+      return t.tags?.some(
+        (tag) => tag === `project:${projectFilter}`,
+      )
+    })
     .filter((t) => {
       if (!t.dependsOn) return true
       const dep = backlog.tasks.find((d) => d.id === t.dependsOn)

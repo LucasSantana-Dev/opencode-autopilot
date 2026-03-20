@@ -13,13 +13,10 @@ import {
 } from "./backlog.js"
 import { recordMetric, getDispatchedToday } from "./metrics.js"
 
-const STATE_DIR = join(
-  process.env.HOME || "~",
-  ".local",
-  "share",
-  "opencode",
-  "orchestrator",
-)
+const STATE_DIR =
+  process.env.OPENCLAW_ORCH_STATE_DIR ||
+  process.env.OPENCLAW_OPENCODE_STATE_DIR ||
+  join(process.env.HOME || "~", ".local", "share", "opencode", "orchestrator")
 const BACKLOG_FILE = join(STATE_DIR, "backlog.json")
 const METRICS_FILE = join(STATE_DIR, "metrics.json")
 const CONTEXT_DIR = join(STATE_DIR, "context")

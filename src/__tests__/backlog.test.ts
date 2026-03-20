@@ -126,6 +126,25 @@ describe("getNextTask", () => {
     const result = getNextTask(makeBacklog([orphan]))
     expect(result?.id).toBe(orphan.id)
   })
+
+  it("filters by project tag", () => {
+    const siza = makeTask({ status: "ready", priority: "high", tags: ["project:siza"] })
+    const lucky = makeTask({ status: "ready", priority: "critical", tags: ["project:lucky"] })
+    const result = getNextTask(makeBacklog([siza, lucky]), "siza")
+    expect(result?.id).toBe(siza.id)
+  })
+
+  it("returns all projects when no filter", () => {
+    const siza = makeTask({ status: "ready", priority: "low", tags: ["project:siza"] })
+    const lucky = makeTask({ status: "ready", priority: "critical", tags: ["project:lucky"] })
+    const result = getNextTask(makeBacklog([siza, lucky]))
+    expect(result?.id).toBe(lucky.id)
+  })
+
+  it("returns undefined when filter matches no tasks", () => {
+    const siza = makeTask({ status: "ready", tags: ["project:siza"] })
+    expect(getNextTask(makeBacklog([siza]), "nonexistent")).toBeUndefined()
+  })
 })
 
 describe("getActiveTasks", () => {
